@@ -1,6 +1,7 @@
 package com.example.pgease.Screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.BackspaceCommand
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,8 +39,7 @@ import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun OwnerSignUpPage() {
-
+fun TenantSignup(){
     var usernameState by rememberSaveable { mutableStateOf("") }
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
@@ -166,11 +165,17 @@ fun OwnerSignUpPage() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         {
-            Text("SignUp", fontFamily = myFont, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text("SignUp",  fontSize = 25.sp, fontWeight = FontWeight.Bold)
         }
 
         Spacer(Modifier.height(15.dp))
-        Text("already have an account ? SingIn", fontSize = 19.sp)
+        Text("already have an account ? SingIn", fontSize = 19.sp,
+            modifier = Modifier.clickable{})
     }
 }
 
+@Preview
+@Composable
+fun TenantSignupPreview(){
+    TenantSignup()
+}

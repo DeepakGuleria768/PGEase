@@ -1,6 +1,8 @@
 package com.example.pgease.Screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,9 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.BackspaceCommand
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,51 +41,28 @@ import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun OwnerSignUpPage() {
-
-    var usernameState by rememberSaveable { mutableStateOf("") }
+fun TanantsigninPage() {
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
-
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize().background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Image(
+            painter = painterResource(R.drawable.tenantimage),
+            modifier = Modifier.size(120.dp),
+            contentScale = ContentScale.Crop,
+            contentDescription = "ownerImage"
+        )
 
-        OutlinedTextField(
-            value = usernameState,
-            onValueChange = { usernameState = it },
-            singleLine = true,
-            leadingIcon = {
-                Icon(
-                    Icons.Filled.Person,
-                    contentDescription = "Username",
-                    tint = Color.Black
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                cursorColor = Color.Black,
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                focusedIndicatorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Black
+        Spacer(Modifier.height(100.dp))
 
-            ),
-            label = { Text("UserName") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp),
 
-            )
-        Spacer(Modifier.height(10.dp))
+
         OutlinedTextField(
             value = EmailState,
             singleLine = true,
@@ -106,6 +85,7 @@ fun OwnerSignUpPage() {
                 unfocusedTextColor = Color.Black,
                 focusedIndicatorColor = Color.Black,
                 unfocusedIndicatorColor = Color.Black
+
             ),
             label = { Text("Email") },
             modifier = Modifier
@@ -166,11 +146,18 @@ fun OwnerSignUpPage() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         {
-            Text("SignUp", fontFamily = myFont, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text("SignIn", fontSize = 25.sp, fontWeight = FontWeight.Bold)
         }
 
         Spacer(Modifier.height(15.dp))
-        Text("already have an account ? SingIn", fontSize = 19.sp)
+
+        Text("not having account ? Register", fontSize = 18.sp,
+            modifier = Modifier.clickable{})
     }
 }
 
+@Preview
+@Composable
+fun MyPreview(){
+    TanantsigninPage()
+}
