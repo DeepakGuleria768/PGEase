@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.pgease.Screens.ChooseType
+import com.example.pgease.Screens.OwnerSignUpPage
 import com.example.pgease.ui.theme.PGEaseTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PGEaseTheme {
-                ChooseType()
+                OwnerSignUpPage()
             }
         }
     }

@@ -45,7 +45,7 @@ fun ChooseType() {
                     painter = painterResource(R.drawable.ownerimage),
                     contentDescription = "image"
                 )
-                Text("OWNER", fontSize = 30.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
+                Text("OWNER", fontSize = 40.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
             }
         }
 
@@ -58,7 +58,7 @@ fun ChooseType() {
                     painter = painterResource(R.drawable.tenantimage),
                     contentDescription = "image"
                 )
-                Text("TENANT", fontSize = 30.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
+                Text("TENANT", fontSize = 40.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
             }
         }
     }
