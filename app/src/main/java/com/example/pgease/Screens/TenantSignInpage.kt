@@ -37,11 +37,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun TanantsigninPage() {
+fun TanantsigninPage(
+    navController: NavController
+) {
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
     var eyeState by rememberSaveable { mutableStateOf(false) }
@@ -146,18 +150,23 @@ fun TanantsigninPage() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         {
-            Text("SignIn", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text("SignIn", fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
         }
 
         Spacer(Modifier.height(15.dp))
 
-        Text("not having account ? Register", fontSize = 18.sp,
-            modifier = Modifier.clickable{})
+        Text(text ="not having account ? Register", fontFamily = myFont, fontSize = 18.sp,
+            modifier = Modifier.clickable{navController.navigate("TenantSignUp"){
+                launchSingleTop = true
+                popUpTo("TanantsigninPage"){
+                    inclusive = true
+                }
+            } })
     }
 }
 
 @Preview
 @Composable
 fun MyPreview(){
-    TanantsigninPage()
+    TanantsigninPage(navController = rememberNavController())
 }

@@ -56,4 +56,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    val navVersion = "2.8.9"
+
+    // Jetpack Compose integration
+    implementation(libs.androidx.navigation.compose)
+
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
 }

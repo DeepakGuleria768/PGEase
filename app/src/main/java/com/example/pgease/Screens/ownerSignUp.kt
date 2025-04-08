@@ -1,6 +1,7 @@
 package com.example.pgease.Screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,11 +36,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun OwnerSignUpPage() {
+fun OwnerSignUpPage(
+    navController: NavController
+) {
 
     var usernameState by rememberSaveable { mutableStateOf("") }
     var EmailState by rememberSaveable { mutableStateOf("") }
@@ -113,6 +117,7 @@ fun OwnerSignUpPage() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         Spacer(Modifier.height(10.dp))
+
         OutlinedTextField(
             value = passwordState,
             singleLine = true,
@@ -158,6 +163,7 @@ fun OwnerSignUpPage() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         Spacer(Modifier.height(50.dp))
+
         Button(
             onClick = {},
             shape = RectangleShape,
@@ -170,7 +176,18 @@ fun OwnerSignUpPage() {
         }
 
         Spacer(Modifier.height(15.dp))
-        Text("already have an account ? SingIn", fontSize = 19.sp)
+        Text(
+            modifier = Modifier.clickable {
+                navController.navigate("OwnerSignIn") {
+                    launchSingleTop = true
+                    popUpTo("OwnerSignUp"){
+                        inclusive = true
+                    }
+                }
+            }, text = "already have an account ? SingIn", fontSize = 19.sp, fontFamily = myFont
+        )
+
+
     }
 }
 

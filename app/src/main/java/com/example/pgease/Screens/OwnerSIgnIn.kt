@@ -38,10 +38,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
+import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun OwnerSignIn() {
+fun OwnerSignIn(
+    navController: NavController
+) {
 
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
@@ -147,12 +152,19 @@ fun OwnerSignIn() {
                 .padding(start = 10.dp, end = 10.dp)
         )
         {
-            Text("SignIn",  fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text("SignIn",  fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
         }
 
         Spacer(Modifier.height(15.dp))
-        Text("not having account ? SignUp",
-            modifier = Modifier.clickable{},
+
+        Text("not having account ? SignUp", fontFamily = myFont,
+            modifier = Modifier.clickable{navController.navigate("OwnerSignUp"){
+                launchSingleTop = true
+                restoreState = true
+                popUpTo("OwnerSignIn"){
+                    inclusive = true
+                }
+            }},
             fontSize = 18.sp)
     }
 }
@@ -161,5 +173,5 @@ fun OwnerSignIn() {
 @Preview
 @Composable
 fun OwnerSignInPreview() {
-    OwnerSignIn()
+    OwnerSignIn(navController = rememberNavController())
 }

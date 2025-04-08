@@ -1,7 +1,6 @@
 package com.example.pgease.Screens
 
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,12 +21,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 
 @Composable
-fun ChooseType() {
+fun ChooseType(navController: NavController) {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -35,13 +36,23 @@ fun ChooseType() {
             .padding(40.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(top = 50.dp), horizontalArrangement = Arrangement.Start) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp),
+            horizontalArrangement = Arrangement.Start
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.clickable {}.background(color = Color.White).
-                    size(230.dp),
+                    modifier = Modifier
+                        .clickable {navController.navigate("OwnerSignIn"){
+                            launchSingleTop  = true
+                            popUpTo("choicePage")
+                        } }
+                        .background(color = Color.White)
+                        .size(230.dp),
                     painter = painterResource(R.drawable.ownerimage),
                     contentDescription = "image"
                 )
@@ -49,12 +60,20 @@ fun ChooseType() {
             }
         }
 
-        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 50.dp), horizontalArrangement = Arrangement.End) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 50.dp),
+            horizontalArrangement = Arrangement.End
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.clickable {}.size(230.dp).background(color = Color.White),
+                    modifier = Modifier
+                        .clickable {navController.navigate("TenantSignIn") }
+                        .size(230.dp)
+                        .background(color = Color.White),
                     painter = painterResource(R.drawable.tenantimage),
                     contentDescription = "image"
                 )
@@ -62,5 +81,11 @@ fun ChooseType() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun MyPreviewOne(){
+    ChooseType(navController = rememberNavController())
 }
 

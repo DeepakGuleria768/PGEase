@@ -35,11 +35,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 
 @Composable
-fun TenantSignup(){
+fun TenantSignup(
+    navController: NavController
+) {
     var usernameState by rememberSaveable { mutableStateOf("") }
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
@@ -165,17 +169,25 @@ fun TenantSignup(){
                 .padding(start = 10.dp, end = 10.dp)
         )
         {
-            Text("SignUp",  fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text("SignUp", fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = myFont)
         }
 
         Spacer(Modifier.height(15.dp))
-        Text("already have an account ? SingIn", fontSize = 19.sp,
-            modifier = Modifier.clickable{})
+        Text(
+            "already have an account ? SingIn", fontFamily = myFont, fontSize = 19.sp,
+            modifier = Modifier.clickable {
+                navController.navigate("TenantSignIn") {
+                    launchSingleTop = true
+                    popUpTo("TenantSignUp") {
+                        inclusive = true
+                    }
+                }
+            })
     }
 }
 
 @Preview
 @Composable
-fun TenantSignupPreview(){
-    TenantSignup()
+fun TenantSignupPreview() {
+    TenantSignup(navController = rememberNavController())
 }
