@@ -1,36 +1,32 @@
 package com.example.pgease
 
 import android.R
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pgease.Screens.ChooseType
 import com.example.pgease.Screens.OwnerSignIn
-import com.example.pgease.Screens.OwnerSignUpPage
 import com.example.pgease.Screens.TanantsigninPage
 import com.example.pgease.Screens.TenantSignup
-import com.example.pgease.ui.theme.PGEaseTheme
+import com.example.pgease.ui.theme.AppTheme
+import com.examstyple.pgease.Screens.OwnerSignUpPage
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PGEaseTheme {
-                PgEaseApp()
+            AppTheme {
+                    PgEaseApp()
             }
         }
     }

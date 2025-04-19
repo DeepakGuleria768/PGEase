@@ -31,9 +31,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
+import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun TanantsigninPage(
@@ -49,6 +53,17 @@ fun TanantsigninPage(
     var EmailState by rememberSaveable { mutableStateOf("") }
     var passwordState by rememberSaveable { mutableStateOf("") }
     var eyeState by rememberSaveable { mutableStateOf(false) }
+
+    val initialText = "not having account ? "
+    val signUpText  = "SignUp"
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = primaryLight)){
+            pushStringAnnotation(tag = signUpText , annotation = signUpText)
+            append(signUpText)
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -155,7 +170,7 @@ fun TanantsigninPage(
 
         Spacer(Modifier.height(15.dp))
 
-        Text(text ="not having account ? Register", fontFamily = myFont, fontSize = 18.sp,
+        Text(text =annotatedString, fontFamily = myFont, fontSize = 18.sp,
             modifier = Modifier.clickable{navController.navigate("TenantSignUp"){
                 launchSingleTop = true
                 popUpTo("TanantsigninPage"){

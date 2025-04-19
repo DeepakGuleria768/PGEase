@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -31,10 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +46,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
+import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun OwnerSignIn(
@@ -52,6 +57,16 @@ fun OwnerSignIn(
     var passwordState by rememberSaveable { mutableStateOf("") }
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
+
+    val initialText = "not having account ? "
+    val signUpText  = "SignUp"
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = primaryLight)){
+           pushStringAnnotation(tag = signUpText , annotation = signUpText)
+            append(signUpText)
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize().background(Color.White),
@@ -157,7 +172,7 @@ fun OwnerSignIn(
 
         Spacer(Modifier.height(15.dp))
 
-        Text("not having account ? SignUp", fontFamily = myFont,
+        Text(text = annotatedString, fontFamily = myFont,
             modifier = Modifier.clickable{navController.navigate("OwnerSignUp"){
                 launchSingleTop = true
                 restoreState = true

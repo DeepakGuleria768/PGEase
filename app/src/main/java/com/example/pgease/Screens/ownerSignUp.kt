@@ -1,4 +1,4 @@
-package com.example.pgease.Screens
+package com.examstyple.pgease.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -29,16 +29,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.BackspaceCommand
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
+import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun OwnerSignUpPage(
@@ -50,6 +55,16 @@ fun OwnerSignUpPage(
     var passwordState by rememberSaveable { mutableStateOf("") }
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
+
+    val initialText = "already have an account ? "
+    val mainText = "SignIn"
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+            withStyle(style = SpanStyle(color = primaryLight)) {
+                pushStringAnnotation(tag = mainText , annotation = mainText)
+                append(mainText)
+            }
+    }
 
     Column(
         modifier = Modifier
@@ -184,10 +199,18 @@ fun OwnerSignUpPage(
                         inclusive = true
                     }
                 }
-            }, text = "already have an account ? SingIn", fontSize = 19.sp, fontFamily = myFont
+            }, text = annotatedString, fontSize = 19.sp, fontFamily = myFont
         )
 
 
     }
 }
 
+
+@Preview
+@Composable
+fun OwnerSignUpPagePreview(){
+    OwnerSignUpPage(
+        navController = rememberNavController()
+    )
+}
