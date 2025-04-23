@@ -1,5 +1,6 @@
 package com.example.pgease.Screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -40,18 +43,24 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.pgease.Authentication.TenantAuthentication.TenantSignInViewModel
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun TanantsigninPage(
-    navController: NavController
+    navController: NavController,
+    viewModel: TenantSignInViewModel = viewModel()
 ) {
-    var EmailState by rememberSaveable { mutableStateOf("") }
-    var passwordState by rememberSaveable { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    val EmailState by viewModel.tenantemail.collectAsState()
+    val passwordState by viewModel.tenantpassword.collectAsState()
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
     val initialText = "not having account ? "
@@ -78,14 +87,12 @@ fun TanantsigninPage(
             contentDescription = "ownerImage"
         )
 
-        Spacer(Modifier.height(100.dp))
-
-
+        Spacer(Modifier.height(50.dp))
 
         OutlinedTextField(
             value = EmailState,
             singleLine = true,
-            onValueChange = { EmailState = it },
+            onValueChange = { viewModel.getTenantEmail(it) },
             leadingIcon = {
                 Icon(
                     Icons.Filled.Email,
@@ -115,7 +122,7 @@ fun TanantsigninPage(
         OutlinedTextField(
             value = passwordState,
             singleLine = true,
-            onValueChange = { passwordState = it },
+            onValueChange = {viewModel.getTenantPassword(it)},
             leadingIcon = {
                 Icon(
                     Icons.Filled.Lock,
@@ -158,7 +165,16 @@ fun TanantsigninPage(
         )
         Spacer(Modifier.height(50.dp))
         Button(
-            onClick = {},
+            onClick = {
+                viewModel.tenantSignIn(
+                    onSuccess = {
+                        navController.navigate("TenantHomeScreen")
+                    },
+                    onFailure = {
+                        Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
+                    }
+                )
+            },
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()

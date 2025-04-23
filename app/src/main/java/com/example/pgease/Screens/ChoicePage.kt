@@ -33,7 +33,7 @@ fun ChooseType(navController: NavController) {
         modifier = Modifier
             .background(Color.White)
             .fillMaxSize()
-            .padding(40.dp),
+            .padding(20.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(

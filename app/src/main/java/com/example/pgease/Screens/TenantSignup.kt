@@ -1,5 +1,6 @@
 package com.example.pgease.Screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -38,19 +41,25 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.pgease.Authentication.TenantAuthentication.TenantSingUpViewModel
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun TenantSignup(
-    navController: NavController
+    navController: NavController,
+    viewModel: TenantSingUpViewModel = viewModel()
 ) {
-    var usernameState by rememberSaveable { mutableStateOf("") }
-    var EmailState by rememberSaveable { mutableStateOf("") }
-    var passwordState by rememberSaveable { mutableStateOf("") }
+
+    val context  = LocalContext.current
+
+    val usernameState by viewModel.username.collectAsState()
+    val EmailState by viewModel.email.collectAsState()
+    val passwordState by viewModel.password.collectAsState()
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
 
@@ -74,7 +83,7 @@ fun TenantSignup(
 
         OutlinedTextField(
             value = usernameState,
-            onValueChange = { usernameState = it },
+            onValueChange = {viewModel.onUsernameChange(it) },
             singleLine = true,
             leadingIcon = {
                 Icon(
@@ -105,7 +114,7 @@ fun TenantSignup(
         OutlinedTextField(
             value = EmailState,
             singleLine = true,
-            onValueChange = { EmailState = it },
+            onValueChange = { viewModel.onEmailChange(it)},
             leadingIcon = {
                 Icon(
                     Icons.Filled.Email,
@@ -134,7 +143,7 @@ fun TenantSignup(
         OutlinedTextField(
             value = passwordState,
             singleLine = true,
-            onValueChange = { passwordState = it },
+            onValueChange = { viewModel.onPasswordChange(it) },
             leadingIcon = {
                 Icon(
                     Icons.Filled.Lock,
@@ -177,7 +186,16 @@ fun TenantSignup(
         )
         Spacer(Modifier.height(50.dp))
         Button(
-            onClick = {},
+            onClick = {
+                viewModel.tenantSignUp(
+                    onSuccess = {
+                        navController.navigate("TenantHomeScreen")
+                    },
+                    onFailure = {
+                        Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
+                    }
+                )
+            },
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()
@@ -201,8 +219,3 @@ fun TenantSignup(
     }
 }
 
-@Preview
-@Composable
-fun TenantSignupPreview() {
-    TenantSignup(navController = rememberNavController())
-}

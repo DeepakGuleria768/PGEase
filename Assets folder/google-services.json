@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "19735325315",
+    "project_id": "pgeaseproject",
+    "storage_bucket": "pgeaseproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19735325315:android:6adf399214df99260249b6",
+        "android_client_info": {
+          "package_name": "com.example.pgease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfzWTiyLfx1UUjNVHfCFdAaFMU2T_vuts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

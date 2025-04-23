@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pgease.Navigation.NavGraphSetup
 import com.example.pgease.Screens.ChooseType
 import com.example.pgease.Screens.OwnerSignIn
 import com.example.pgease.Screens.TanantsigninPage
@@ -26,37 +27,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                    PgEaseApp()
-            }
+                NavGraphSetup()
+             }
         }
     }
 }
 
-
-@Composable
-fun PgEaseApp(
-    modifier: Modifier = Modifier
-) {
-
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "choicePage") {
-        composable("choicePage") {
-            ChooseType(navController = navController)
-        }
-        composable("OwnerSignUp") {
-            OwnerSignUpPage(navController = navController)
-        }
-        composable("OwnerSignIn") {
-            OwnerSignIn(navController = navController)
-        }
-        composable("TenantSignUp") {
-            TenantSignup(navController = navController)
-        }
-        composable("TenantSignIn") {
-            TanantsigninPage(navController = navController)
-        }
-
-    }
-
-}

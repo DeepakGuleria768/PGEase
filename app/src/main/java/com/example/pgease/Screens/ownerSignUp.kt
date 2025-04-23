@@ -1,5 +1,6 @@
 package com.examstyple.pgease.Screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,31 +30,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.BackspaceCommand
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.pgease.Authentication.OwnerAuthentication.OwnerSignupViewmodel
 import com.example.pgease.R
 import com.example.pgease.ui.theme.myFont
 import com.example.pgease.ui.theme.primaryLight
 
 @Composable
 fun OwnerSignUpPage(
-    navController: NavController
+    navController: NavController,
+    viewmodel: OwnerSignupViewmodel = viewModel()
 ) {
 
-    var usernameState by rememberSaveable { mutableStateOf("") }
-    var EmailState by rememberSaveable { mutableStateOf("") }
-    var passwordState by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+    val usernameState by viewmodel.username.collectAsState()
+    val EmailState by viewmodel.email.collectAsState()
+    val passwordState by viewmodel.password.collectAsState()
     var eyeState by rememberSaveable { mutableStateOf(false) }
 
 
@@ -75,7 +79,7 @@ fun OwnerSignUpPage(
 
         OutlinedTextField(
             value = usernameState,
-            onValueChange = { usernameState = it },
+            onValueChange = {viewmodel.onUsernameChange(it)},
             singleLine = true,
             leadingIcon = {
                 Icon(
@@ -103,10 +107,11 @@ fun OwnerSignUpPage(
 
             )
         Spacer(Modifier.height(10.dp))
+
         OutlinedTextField(
             value = EmailState,
             singleLine = true,
-            onValueChange = { EmailState = it },
+            onValueChange = { viewmodel.onEmailChange(it) },
             leadingIcon = {
                 Icon(
                     Icons.Filled.Email,
@@ -136,7 +141,7 @@ fun OwnerSignUpPage(
         OutlinedTextField(
             value = passwordState,
             singleLine = true,
-            onValueChange = { passwordState = it },
+            onValueChange = {viewmodel.onPasswordChange(it)},
             leadingIcon = {
                 Icon(
                     Icons.Filled.Lock,
@@ -180,7 +185,16 @@ fun OwnerSignUpPage(
         Spacer(Modifier.height(50.dp))
 
         Button(
-            onClick = {},
+            onClick = {
+                viewmodel.signUpOwner(
+                    onSuccess = {
+                        navController.navigate("OwnerHomeScreen")
+                    },
+                    onFailure = {
+                        Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
+                    }
+                )
+            },
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()
@@ -201,16 +215,5 @@ fun OwnerSignUpPage(
                 }
             }, text = annotatedString, fontSize = 19.sp, fontFamily = myFont
         )
-
-
     }
-}
-
-
-@Preview
-@Composable
-fun OwnerSignUpPagePreview(){
-    OwnerSignUpPage(
-        navController = rememberNavController()
-    )
 }
